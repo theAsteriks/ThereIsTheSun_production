@@ -206,11 +206,6 @@ def STATE_MGR():
 set_local_time()
 if sub_boss.tracer == True:
     success = sub_boss.set_wind_factor()
-    if success['ERROR'] == None:
-        logger.info("Tracer set the wind factor to %s",config.WIND_MULTIPLIER)
-    else:
-        logger.error("Failed to set the wind factor")
-
 
 
 while time.localtime()[4] in range(0,60):
