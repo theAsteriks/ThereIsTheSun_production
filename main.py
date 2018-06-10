@@ -141,7 +141,7 @@ def IO_MGR():
         sub_boss.poll_server()
         sub_boss.update_cpu_temp()
         if sub_boss.tracer == False:
-            sub_boss.db_update(current_state)
+            sub_boss.db_update(current_state,max_wind_poll_counter)
         inst_status = True
         for each in sub_boss.bools.itervalues():
             inst_status = inst_status and each
@@ -154,7 +154,7 @@ def IO_MGR():
     if wind_poll_counter >= max_wind_poll_counter:
         sub_boss.update_wind_ok(max_wind_poll_counter)
         if sub_boss.tracer == True:
-            sub_boss.db_update(current_state)
+            sub_boss.db_update(current_state,max_wind_poll_counter)
 
     if io_counter >= config.POLLING_INTERVAL:
         io_counter = 0
