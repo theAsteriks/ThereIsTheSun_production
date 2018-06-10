@@ -11,14 +11,6 @@ import constr_params
 import supDB
 import logging
 
-id = config.RPI_ID()
-sub_boss = constr_params.GlobalVarMGR()
-wind_tracer = config.IS_WIND_TRACER(id)
-io_counter = config.POLLING_INTERVAL
-current_state = "ADMIN_IDLE"
-max_wind_poll_counter = config.MAX_NO_WIND_DETECTION
-wind_poll_counter = max_wind_poll_counter
-
 logger = logging.getLogger(__name__)
 logger.setLevel(config.MAIN_LOG_LEVEL)
 formatter = logging.Formatter('%(name)s:%(levelname)s:%(asctime)s:%(message)s')
@@ -27,11 +19,25 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 ok_status = True
 
+##########################################################################
+#################### GLOBAL VARIABLES ####################################
+id = config.RPI_ID()
+sub_boss = constr_params.GlobalVarMGR()
+logger.info("Initiated global variable holder")
+wind_tracer = config.IS_WIND_TRACER(id)
+io_counter = config.POLLING_INTERVAL
+current_state = "ADMIN_IDLE"
+max_wind_poll_counter = config.MAX_NO_WIND_DETECTION
+wind_poll_counter = max_wind_poll_counter
+
+#########################################################################
+
 #changing the local timezone to CET because the resin.io's default timezone is UTC
 
 def set_local_time():
     os.environ['TZ'] = 'Europe/Brussels'
     time.tzset()
+    logger.info("Set the timezone to Brussels' timezone")
 
 ##############################################################################
 
@@ -72,6 +78,7 @@ def update_wind_counter_limit():
                 break
     except Exception as e:
         logger.exception(e)
+
 
 
 def MAIN_FSM():
@@ -197,6 +204,14 @@ def STATE_MGR():
         current_state = "TRACKING"
 
 set_local_time()
+if sub_boss.tracer == True:
+    success = sub_boss.set_wind_factor()
+    if success['ERROR'] == None:
+        logger.info("Tracer set the wind factor to %s",config.WIND_MULTIPLIER)
+    else:
+        logger.error("Failed to set the wind factor")
+
+
 
 while time.localtime()[4] in range(0,60):
 

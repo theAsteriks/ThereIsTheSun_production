@@ -115,7 +115,7 @@ OVERHEAT_SLEEP_TIME = 300
 WIND_COUNTER = 60
 
 
-WIND_MULTIPLIER = 1.2
+WIND_MULTIPLIER = '2.44'
 SERVER_PARAMS = ('target_position_H','target_position_V','mirror_ID','time','availability','admin_slot_on')
 
 DB_USER = 'ID248563_sunshine'

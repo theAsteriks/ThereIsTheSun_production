@@ -177,4 +177,3 @@ def poll_tracker_params():
         return params
     params['ERROR'] = None
     return params
-#while waking up - 2048

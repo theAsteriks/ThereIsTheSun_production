@@ -230,21 +230,47 @@ class GlobalVarMGR(object):
                     supDB.update_rpi_status('RS458 write failure')
                 self.bools['tracker_updated'] = 'False'
 
-    def db_update(self,state):
+    def set_wind_factor(self):
+        success = UART.send_write_command(config.d['WindFactor'],config.WIND_MULTIPLIER)
+        if success['ERROR'] == None:
+            self.timings['last_tracker_update'] = time.time()
+            self.bools['tracker_updated'] == True
+        else:
+            if time.time() - self.timings['last_tracker_update'] > config.MAX_UART_DOWN_TIME:
+                if self.bools['tracker_updated'] == True:
+                    logger.warn("RS485 write failure for more than %d seconds"\
+                    %config.MAX_UART_DOWN_TIME)
+                    supDB.update_rpi_status('RS458 write failure')
+                self.bools['tracker_updated'] = 'False'
+
+
+    def db_update(self,state,time_limit):
         new_db_values = self.make_db_params(state)
         success = supDB.db_update(new_db_values)
         if success['ERROR'] == None:
             self.timings['last_db_update'] = time.time()
             self.bools['db_updated'] = True
         else:
-            if time.time() - self.timings['last_db_update'] > config.MAX_DB_DOWN_TIME:
-                logger.warn("DB failure for more than %d seconds"%config.MAX_DB_DOWN_TIME)
-                self.bools['db_updated'] = False
+            if self.tracer == False:
+                if time.time() - self.timings['last_db_update'] > \
+                config.MAX_DB_DOWN_TIME:
+                    if self.bools['db_updated'] == True:
+                        logger.warn("DB update failure for more than %d seconds"\
+                        %config.MAX_DB_DOWN_TIME)
+                        self.bools['db_updated'] = False
+            else:
+                if time.time() - self.timezone['last_db_update'] > (2*time_limit):
+                    if self.bools['db_updated'] == True:
+                        logger.critical("tracer DB_FAILURE for more than %d secs"\
+                        %(2*time_limit))
+                        self.bools['db_updated'] = False
 
     def calc_avg_wind_speed(self):
         inst_wind_speed = 0.0
-        if self.tracker_params[config.d['WindSpeed']] != '':
+        try:
             inst_wind_speed += float(self.tracker_params[config.d['WindSpeed']])
+        except Exception as e:
+            logger.exception(e)
         if len(self.wind_speed_array) >= config.MAX_WIND_ARRAY_LENGTH:
             self.wind_speed_array.pop()
         self.wind_speed_array.insert(0,inst_wind_speed)
