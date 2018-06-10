@@ -13,7 +13,7 @@ id = config.RPI_ID()
 tracer_id = config.WIND_TRACER_ID()
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(config.DB_LOG_LEVEL)
 formatter = logging.Formatter('%(name)s:%(levelname)s:%(asctime)s:%(message)s')
 file_handler = logging.FileHandler('log_files/supDB.log')
 file_handler.setFormatter(formatter)

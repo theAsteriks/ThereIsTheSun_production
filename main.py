@@ -1,7 +1,11 @@
+import os
+
+if not os.path.exists('log_files'):
+    os.makedirs('log_files')
+
 import time
 import httpReq
 import UART
-import os
 import config
 import constr_params
 import supDB
@@ -16,7 +20,7 @@ max_wind_poll_counter = config.MAX_NO_WIND_DETECTION
 wind_poll_counter = max_wind_poll_counter
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(config.MAIN_LOG_LEVEL)
 formatter = logging.Formatter('%(name)s:%(levelname)s:%(asctime)s:%(message)s')
 file_handler = logging.FileHandler('log_files/main.log')
 file_handler.setFormatter(formatter)
@@ -199,5 +203,5 @@ while time.localtime()[4] in range(0,60):
     IO_MGR()
     STATE_MGR()
     MAIN_FSM()
-    
+
     time.sleep(1)

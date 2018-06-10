@@ -11,7 +11,7 @@ id = config.RPI_ID()
 #id = 1
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(config.CONSTR_PARAMS_LOG_LEVEL)
 formatter = logging.Formatter('%(name)s:%(levelname)s:%(asctime)s:%(message)s')
 file_handler = logging.FileHandler('log_files/constr_params.log')
 file_handler.setFormatter(formatter)

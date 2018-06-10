@@ -10,7 +10,7 @@ id = config.RPI_ID()
 polling_url = config.POLLING_URL
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(config.HTTP_LOG_LEVEL)
 formatter = logging.Formatter('%(name)s:%(levelname)s:%(asctime)s:%(message)s')
 file_handler = logging.FileHandler('log_files/httpReq.log')
 file_handler.setFormatter(formatter)

@@ -17,7 +17,7 @@ id = config.RPI_ID()
 #id = 1
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(config.UART_LOG_LEVEL)
 formatter = logging.Formatter('%(name)s:%(levelname)s:%(asctime)s:%(message)s')
 file_handler = logging.FileHandler('log_files/UART.log')
 file_handler.setFormatter(formatter)
