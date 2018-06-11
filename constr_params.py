@@ -115,7 +115,7 @@ class GlobalVarMGR(object):
                 logger.exception(err)
 
             if speed_now > config.MAX_INST_WIND_SPEED or speed_avg > \
-            config.MAX_AVG_WIND_SPEED or self.timings['tracker_polled'] == False:
+            config.MAX_AVG_WIND_SPEED or self.bools['tracker_polled'] == False:
                 self.tracker_params['wind_ok'] = 'NO'
             else:
                 self.tracker_params['wind_ok'] = 'YES'
