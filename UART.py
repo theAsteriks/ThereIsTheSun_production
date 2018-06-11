@@ -136,6 +136,7 @@ def send_write_command(bin, value):
         return {'ERROR':None}
     else:
         logger.warn("Invalid response of a write command")
+        logger.warn("sent %s - received %s"%(command,sent_back))
         return {
         'ERROR':'YES',
         'TYPE':'PYSERIAL',
