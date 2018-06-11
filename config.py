@@ -105,12 +105,12 @@ POLLING_INTERVAL = 20
 POLLING_URL = 'http://www.thereisthesun.be/rpiretrievecurrentapid.php'
 
 MAX_SERVERDOWN_TIME = 300
-MAX_DB_DOWN_TIME = 600
+MAX_DB_DOWN_TIME = 150
 MAX_UART_DOWN_TIME = 120
-MAX_AVG_WIND_SPEED = 40.0
-MAX_WIND_ARRAY_LENGTH = 65
-MAX_INST_WIND_SPEED = 60.0
-MAX_NO_WIND_DETECTION = 135
+MAX_AVG_WIND_SPEED = 20.0
+MAX_WIND_ARRAY_LENGTH = 15
+MAX_INST_WIND_SPEED = 30.0
+MAX_NO_WIND_DETECTION = 90
 OVERHEAT_SLEEP_TIME = 300
 WIND_COUNTER = 60
 
@@ -156,11 +156,11 @@ def RPI_ID():
 def IS_WIND_TRACER(rpi_id):
     z = rpi_id
     if z == 1:
-        return False
+        return True
     elif z == 2:
         return False
     elif z == 3:
-        return True
+        return False
     else:
         return False
 

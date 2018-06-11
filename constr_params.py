@@ -106,9 +106,16 @@ class GlobalVarMGR(object):
                     self.bools['wind_polled'] = False
                     ##action on no wind detection
         else:
-            if self.tracker_params[config.d['WindSpeed']] > config.MAX_INST_WIND_SPEED \
-            or self.tracker_params['avg_wind_speed'] > config.MAX_AVG_WIND_SPEED or \
-            self.timings['tracker_polled'] == False:
+            speed_now = config.MAX_INST_WIND_SPEED/2
+            speed_avg = config.MAX_AVG_WIND_SPEED/2
+            try:
+                speed_now = float(self.tracker_params[config.d['WindSpeed']])
+                speed_avg = float(self.tracker_params['avg_wind_speed'])
+            except Exception as err:
+                logger.exception(err)
+
+            if speed_now > config.MAX_INST_WIND_SPEED or speed_avg > \
+            config.MAX_AVG_WIND_SPEED or self.timings['tracker_polled'] == False:
                 self.tracker_params['wind_ok'] = 'NO'
             else:
                 self.tracker_params['wind_ok'] = 'YES'

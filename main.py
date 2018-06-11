@@ -17,7 +17,7 @@ formatter = logging.Formatter('%(name)s:%(levelname)s:%(asctime)s:%(message)s')
 file_handler = logging.FileHandler('log_files/main.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
-ok_status = True
+
 
 ##########################################################################
 #################### GLOBAL VARIABLES ####################################
@@ -29,6 +29,7 @@ io_counter = config.POLLING_INTERVAL
 current_state = "ADMIN_IDLE"
 max_wind_poll_counter = config.MAX_NO_WIND_DETECTION
 wind_poll_counter = max_wind_poll_counter
+ok_status = True
 
 #########################################################################
 
@@ -133,6 +134,7 @@ def IO_MGR():
 
     if sub_boss.tracer == True:
         sub_boss.poll_tracker(max_wind_poll_counter)
+        sub_boss.update_wind_ok(max_wind_poll_counter)
     else:
         if io_counter % 5 == 0:
             sub_boss.poll_tracker(max_wind_poll_counter)
@@ -152,9 +154,10 @@ def IO_MGR():
             supDB.update_rpi_status(current_state)
 
     if wind_poll_counter >= max_wind_poll_counter:
-        sub_boss.update_wind_ok(max_wind_poll_counter)
         if sub_boss.tracer == True:
             sub_boss.db_update(current_state,max_wind_poll_counter)
+        else:
+            sub_boss.update_wind_ok(max_wind_poll_counter)
 
     if io_counter >= config.POLLING_INTERVAL:
         io_counter = 0
@@ -205,7 +208,7 @@ def STATE_MGR():
 
 set_local_time()
 if sub_boss.tracer == True:
-    success = sub_boss.set_wind_factor()
+    sub_boss.set_wind_factor()
 
 
 while time.localtime()[4] in range(0,60):
