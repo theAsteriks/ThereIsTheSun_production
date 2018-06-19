@@ -49,12 +49,14 @@ class GlobalVarMGR(object):
         }
         if self.tracer == True:
             self.tracker_params['avg_wind_speed'] = 0.0
+            self.tracker_params['avg_wind_speed2'] = 0.0
             self.wind_speed_array = []
+            self.wind_speed_array2 = []
             self.wind_data = 'log_files/wind_measurements.csv'
             self.wind_data_first_write = None
             try:
                 tablefile = open(self.wind_data,'w')
-                fieldnames = ['inst_wind_speed','avg_wind_speed','time']
+                fieldnames = ['inst_wind_speed','avg_wind_speed','avg_wind_speed2','time']
                 writer = csv.DictWriter(tablefile,fieldnames = fieldnames)
                 writer.writeheader()
             except Exception as err:
@@ -280,20 +282,28 @@ class GlobalVarMGR(object):
             logger.exception(e)
         if len(self.wind_speed_array) >= config.MAX_WIND_ARRAY_LENGTH:
             self.wind_speed_array.pop()
+        if len(self.wind_speed_array2) >= 2*config.MAX_WIND_ARRAY_LENGTH:
+            self.wind_speed_array2.pop()
         self.wind_speed_array.insert(0,inst_wind_speed)
+        self.wind_speed_array2.insert(0,inst_wind_speed)
         sum = 0.0
         for velocity in self.wind_speed_array:
             sum += velocity
         self.tracker_params['avg_wind_speed'] = sum/len(self.wind_speed_array)
+        sum = 0.0
+        for velocity in self.wind_speed_array2:
+            sum += velocity
+        self.tracker_params['avg_wind_speed2'] = sum/len(self.wind_speed_array2)
         try:
             datafile = open(self.wind_data,'a')
-            fieldnames = ['inst_wind_speed','avg_wind_speed','time']
+            fieldnames = ['inst_wind_speed','avg_wind_speed','avg_wind_speed2','time']
             writer = csv.DictWriter(datafile,fieldnames = fieldnames)
             if self.wind_data_first_write == None:
                 self.wind_data_first_write = int(time.time())
             rowDict = {
             'inst_wind_speed':inst_wind_speed,
             'avg_wind_speed':self.tracker_params['avg_wind_speed'],
+            'avg_wind_speed2':self.tracker_params['avg_wind_speed2'],
             'time':int(time.time())-self.wind_data_first_write
             }
             writer.writerow(rowDict)
