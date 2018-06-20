@@ -97,8 +97,8 @@ SERIAL_PORT = '/dev/ttyAMA0'
 MAX_UART_RECEIVE_LENGTH = 150
 WIFI_INTERFACE = 'wlan0'
 CPU_TEMP_PATH = '/sys/class/thermal/thermal_zone0/temp'
-IDLEA = '4.0'
-IDLEB = '45.0'
+IDLEA = '0.0'
+IDLEB = '89.9'
 NIGHT_SLEEP_TIME = 10
 
 POLLING_INTERVAL = 20
