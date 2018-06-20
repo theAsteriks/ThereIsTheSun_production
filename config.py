@@ -155,11 +155,11 @@ def RPI_ID():
 def IS_WIND_TRACER(rpi_id):
     z = rpi_id
     if z == 1:
-        return True
+        return False
     elif z == 2:
         return False
     elif z == 3:
-        return False
+        return True
     else:
         return False
 
