@@ -181,6 +181,9 @@ def STATE_MGR():
             logger.info("Changing state from %s to NIGHT_IDLE"%current_state)
         current_state = "NIGHT_IDLE"
         return
+    elif sub_boss.tracker_params[config.d['Mode']].__contains__('too far'):
+        current_state = "NIGHT_IDLE"
+        return
     elif sub_boss.tracker_params['wind_ok'] == 'NO':
         if current_state != "WIND_IDLE":
             logger.info("Changing state from %s to WIND_IDLE"%current_state)
