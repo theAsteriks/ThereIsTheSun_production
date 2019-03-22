@@ -1,12 +1,10 @@
 import os
-import base64
-import config
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.kbkdf import \
 (CounterLocation, KBKDFHMAC, Mode)
 from cryptography.hazmat.backends import default_backend
-
+import base64
 
 class Disenchant(object):
   def __getSerialNum(self,file_location):
@@ -33,15 +31,28 @@ class Disenchant(object):
     context=context,\
     fixed=None,\
     backend=default_backend())
-    return base64.urlsafe_b64encode(kdf.derive(self.__getSerialNum(config.serN_file_location)))
+    return base64.urlsafe_b64encode(kdf.derive(self.__getSerialNum(config.SER_N_FILE_LOC)))
   
-  def getDBpassword(self):
-    file_location = "passes\pi"+str(config.RPI_ID())+"_pass.bin"
-    fileobj = open(file_location,'rb')
-    string = fileobj.read(-1)
+  def getDBdata(self):
+    fileobj = open('passes/pi'+str(config.PRI_ID())+'_pass.bin','rb')
+    raw_data_list = list()
+    text_data_list = list()
+    db_item = ''
+    
+    while True:
+      chip = fileobj.read(1)
+      if chip == '':
+        break
+      if chip == chr(0):
+        raw_data_list.append(db_item)
+        db_item = ''
+      else:
+        db_item = db_item.__add__(chip)
+
     fileobj.close()
     key = self.__genKey()
-    f = Fernet(key)
-    token = f.decrypt(string)
-    return token
-    
+    enigma = Fernet(key)
+    for item in raw_data_list:
+      word = enigma.decrypt(item)
+      text_data_list.append(word)
+    return text_data_list

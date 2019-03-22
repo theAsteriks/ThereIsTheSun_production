@@ -118,20 +118,15 @@ OVERHEAT_SLEEP_TIME = 300
 WIND_MULTIPLIER = '2.44'
 SERVER_PARAMS = ('target_position_H','target_position_V','mirror_ID','time','availability','admin_slot_on')
 
-DB_USER = 'ID248563_sunshine'
-DB_PASSWORD = 'rainbowUnicorn1'
-DB_HOST = 'ID248563_sunshine.db.webhosting.be'
-DB_DATABASE_NAME = 'ID248563_sunshine'
-DB_STATUS_TABLE = 'mirror'
 DB_STATUS_TABLE_COLUMNS = ('current_position_H','current_position_V',
     'target_position_H','target_position_V','cpu_temp','rpi_status',
     'wind_speed','wind_ok')
 
-MAIN_LOG_LEVEL = 10
-CONSTR_PARAMS_LOG_LEVEL = 10
-UART_LOG_LEVEL = 10
-DB_LOG_LEVEL = 10
-HTTP_LOG_LEVEL = 10
+MAIN_LOG_LEVEL = 20
+CONSTR_PARAMS_LOG_LEVEL = 20
+UART_LOG_LEVEL = 30
+DB_LOG_LEVEL = 30
+HTTP_LOG_LEVEL = 30
 
 def RPI_ID():
     macfile = None

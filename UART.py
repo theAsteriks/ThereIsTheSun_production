@@ -26,7 +26,7 @@ logger.addHandler(file_handler)
 def init_UART():
     try:
         channel = serial.Serial(port, baud, bytesize, parity, stopbits, read_timeout, xonxoff)
-        logger.info("Successfully created a serial port")
+        logger.debug("Successfully created a serial port")
         return channel
     except serial.SerialException as e:
         logger.exception(e)
@@ -78,13 +78,13 @@ def is_valid_msg(msg):
     if len(msg) < 4:
         return False
     if msg[0] != id:
-        logger.warn("Invalid machinID %d in a UART response, local ID is %d"%(msg[0],id))
+        logger.debug("Invalid machinID %d in a UART response, local ID is %d"%(msg[0],id))
         return False
     header = msg[0:len(msg)-2]
     crc = msg[len(msg)-2:len(msg)]
     #### THE real CRC check:
     if crc != CRC_GEN(header):
-        logger.info("INVALID CRC message")
+        logger.warn("INVALID CRC message")
         return False
     return True
 
@@ -135,7 +135,7 @@ def send_write_command(bin, value):
     if sent == len(command) and sent_back[0:2] == bytearray([id,0x20]):
         return {'ERROR':None}
     else:
-        logger.warn("Invalid response of a write command")
+        logger.error("Invalid response of a write command")
         logger.warn("sent %s - received %s"%(command,sent_back))
         return {
         'ERROR':'YES',

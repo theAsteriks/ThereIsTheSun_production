@@ -138,7 +138,7 @@ class GlobalVarMGR(object):
             temp = float(tempfile.readline())/1000
             self.tracker_params['cpu_temp'] = str(temp)
             if time.localtime()[4] % 10 == 0:
-                logger.info("%fC core temp"%temp)
+                logger.info("%2.1fC core temp"%temp)
             if temp > config.CPU_MAX_TEMP:
                 logger.critical("Exceeding max cpu temperature, currently %fC"%temp)
                 time.sleep(config.OVERTEMP_SLEEP_TIME)
@@ -180,7 +180,7 @@ class GlobalVarMGR(object):
                 if time.time() - self.timings['last_tracker_poll'] > config.MAX_UART_DOWN_TIME:
                     if self.bools['tracker_polled'] == True:
                         supDB.update_rpi_status('RS458 read failure')
-                        logger.warn("RS485 read failure for more than %d seconds"\
+                        logger.critical("RS485 read failure for more than %d seconds"\
                         %config.MAX_UART_DOWN_TIME)
                     self.bools['tracker_polled'] = False
                 ## actions on RS458 read failure
@@ -238,6 +238,19 @@ class GlobalVarMGR(object):
                     %config.MAX_UART_DOWN_TIME)
                     supDB.update_rpi_status('RS458 write failure')
                 self.bools['tracker_updated'] = 'False'
+    def clear_tracker_errors(self):
+        success = UART.send_write_command(136,'clear')
+        if success['ERROR'] == None:
+            self.timings['last_tracker_update'] = time.time()
+            self.bools['tracker_updated'] = True
+        else:
+            if time.time() - self.timings['last_tracker_update'] > config.MAX_UART_DOWN_TIME:
+                if self.bools['tracker_updated'] == True:
+                    logger.warn("RS485 write failure for more than %d seconds"\
+                    %config.MAX_UART_DOWN_TIME)
+                    supDB.update_rpi_status('RS458 write failure')
+                self.bools['tracker_updated'] = 'False'
+
 
     def set_wind_factor(self):
         success = UART.send_write_command(config.d['WindFactor'],config.WIND_MULTIPLIER)
@@ -289,11 +302,11 @@ class GlobalVarMGR(object):
         sum = 0.0
         for velocity in self.wind_speed_array:
             sum += velocity
-        self.tracker_params['avg_wind_speed'] = sum/len(self.wind_speed_array)
+        self.tracker_params['avg_wind_speed'] = round(sum/len(self.wind_speed_array),2)
         sum = 0.0
         for velocity in self.wind_speed_array2:
             sum += velocity
-        self.tracker_params['avg_wind_speed2'] = sum/len(self.wind_speed_array2)
+        self.tracker_params['avg_wind_speed2'] = round(sum/len(self.wind_speed_array2),2)
         try:
             datafile = open(self.wind_data,'a')
             fieldnames = ['inst_wind_speed','avg_wind_speed','avg_wind_speed2','time']

@@ -39,7 +39,7 @@ def poll_server_params():
         error_dict['ERROR'] = 'YES'
         error_dict['TYPE'] = 'HTTPREQ'
         error_dict['INFO'] = 'BAD_REQUEST'
-        logger.info("HTTP status code was %i"%response.status_code)
+        logger.warn("HTTP status code was %i"%response.status_code)
         return error_dict
 
     if response.text == '0 results':
@@ -68,7 +68,7 @@ def poll_server_params():
                             response['ERROR'] = None
                             return response
                         else:
-                            logger.error("Mismatch of mirror ID and target position")
+                            logger.error("No target position for mirror ID "+str(id))
                             response['ERROR'] = 'YES'
                             response['TYPE'] = 'HTTPREQ'
                             response['INFO'] = 'TARGET_HV_MISMATCH'
@@ -80,7 +80,7 @@ def poll_server_params():
                         response['INFO'] = 'SERVER_TIME_MISMATCH'
                         return response
             except Exception as e:
-                logger.warning("Unexpected server response->%s"%str(json_array))
+                logger.warning("Unable to convert server response to JSON->%s"%str(json_array))
         logger.warn("No coordinates for mirror_ID %d"%id)
         response['ERROR'] = 'YES'
         response['INFO'] = 'LACK_LOCAL_ID'

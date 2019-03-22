@@ -23,7 +23,7 @@ logger.addHandler(file_handler)
 #################### GLOBAL VARIABLES ####################################
 id = config.RPI_ID()
 sub_boss = constr_params.GlobalVarMGR()
-logger.info("Initiated global variable holder")
+logger.debug("Initiated global variable holder")
 wind_tracer = config.IS_WIND_TRACER(id)
 io_counter = config.POLLING_INTERVAL
 current_state = "ADMIN_IDLE"
@@ -38,7 +38,7 @@ ok_status = True
 def set_local_time():
     os.environ['TZ'] = 'Europe/Brussels'
     time.tzset()
-    logger.info("Set the timezone to Brussels' timezone")
+    logger.debug("Set the timezone to Brussels' timezone")
 
 ##############################################################################
 
@@ -212,6 +212,7 @@ def STATE_MGR():
 set_local_time()
 if sub_boss.tracer == True:
     sub_boss.set_wind_factor()
+sub_boss.clear_tracker_errors()
 
 
 while time.localtime()[4] in range(0,60):

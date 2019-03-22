@@ -4,13 +4,14 @@ import logging
 import time
 import crypt
 
-db_user = config.DB_USER
-db_pass = crypt.Disenchant().getDBpassword()
-db_host = config.DB_HOST
-db_database = config.DB_DATABASE_NAME
-db_status_table = config.DB_STATUS_TABLE
+db_data = crypt.Disenchant().getDBdata()
+db_user = db_data[0]
+db_pass = db_data[1]
+db_host = db_data[2]
+db_database = db_data[3]
+db_status_table = db_data[4]
 id = config.RPI_ID()
-#id = 1
+
 tracer_id = config.WIND_TRACER_ID()
 
 logger = logging.getLogger(__name__)
