@@ -5,6 +5,8 @@ WORKDIR /usr/src/app
 COPY ./requirements.txt /requirements.txt
 
 # pip install python deps from requirements.txt on the resin.io build server
+RUN python -m pip install --upgrade pip
+
 RUN python -m pip install -r /requirements.txt
 
 RUN python -m pip install --upgrade pip setuptools
