@@ -2,9 +2,10 @@ import mysql.connector as connector
 import config
 import logging
 import time
+import crypt
 
 db_user = config.DB_USER
-db_pass = config.DB_PASSWORD
+db_pass = crypt.Disenchant().getDBpassword()
 db_host = config.DB_HOST
 db_database = config.DB_DATABASE_NAME
 db_status_table = config.DB_STATUS_TABLE

@@ -91,6 +91,7 @@ d["OverTempShift"] = 139
 d["OTemp_shift_timeout"] = 140
 
 mac_table = ("b8:27:eb:07:71:18", "b8:27:eb:33:21:a8", "b8:27:eb:e4:6b:d8")
+SER_N_FILE_LOC = "/proc/cpuinfo"
 
 CPU_MAX_TEMP = 70.0
 SERIAL_PORT = '/dev/ttyAMA0'
