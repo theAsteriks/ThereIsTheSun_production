@@ -35,7 +35,7 @@ class Disenchant(object):
     return base64.urlsafe_b64encode(kdf.derive(self.__getSerialNum(config.SER_N_FILE_LOC)))
   
   def getDBdata(self):
-    fileobj = open('passes/pi'+str(config.PRI_ID())+'_pass.bin','rb')
+    fileobj = open('passes/pi'+str(config.RPI_ID())+'_pass.bin','rb')
     raw_data_list = list()
     text_data_list = list()
     db_item = ''
