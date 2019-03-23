@@ -100,7 +100,7 @@ WIFI_INTERFACE = 'wlan0'
 CPU_TEMP_PATH = '/sys/class/thermal/thermal_zone0/temp'
 IDLEA = '0.0'
 IDLEB = '89.9'
-NIGHT_SLEEP_TIME = 10
+NIGHT_SLEEP_TIME = 1800
 
 POLLING_INTERVAL = 20
 POLLING_URL = 'http://www.thereisthesun.be/rpiretrievecurrentapid.php'
