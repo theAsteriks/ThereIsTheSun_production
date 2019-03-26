@@ -88,27 +88,22 @@ def MAIN_FSM():
 
 
     if current_state == "NIGHT_IDLE":
-        print current_state
         if sub_boss.tracker_params[config.d['Mode']] != 'tracking disabled':
             sub_boss.send_to_idle()
         time.sleep(config.NIGHT_SLEEP_TIME)
         return
     elif current_state == "WIND_IDLE":
-        print current_state
         if sub_boss.tracker_params[config.d['Mode']] != 'tracking disabled':
             sub_boss.send_to_idle()
     elif current_state == "ADMIN_IDLE":
-        print current_state
         if sub_boss.tracker_params[config.d['Mode']] != 'tracking disabled':
             sub_boss.send_to_idle()
         return
     elif current_state == "USER_IDLE":
-        print current_state
         if sub_boss.tracker_params[config.d['Mode']] != 'tracking disabled':
             sub_boss.send_to_idle()
         return
     elif current_state == "EMERGENCY":
-        print current_state
         if sub_boss.tracker_params[config.d['Mode']] != 'tracking disabled':
             sub_boss.send_to_idle()
         return
@@ -117,7 +112,6 @@ def MAIN_FSM():
         if sub_boss.tracker_params[config.d['Mode']] != 'tracking enabled':
             sub_boss.tracker_activate()
         sub_boss.tracker_update_motors()
-        print current_state
         return
     else:
         current_state = "ADMIN_IDLE"
@@ -215,7 +209,7 @@ if sub_boss.tracer == True:
 sub_boss.clear_tracker_errors()
 
 
-while time.localtime()[4] in range(0,60):
+while True:
 
     IO_MGR()
     STATE_MGR()
