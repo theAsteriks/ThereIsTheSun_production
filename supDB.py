@@ -109,7 +109,6 @@ def update_rpi_status(status):
     query = "UPDATE {} SET rpi_status = %s, last_modified = %s "\
     "WHERE mirror_ID = %s;".format(db_status_table)
     cursor = cnx.cursor()
-    logger.debug(str(status))
     try:
         cursor.execute(query,(status,time.asctime(),id))
         cnx.commit()

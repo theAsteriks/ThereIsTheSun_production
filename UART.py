@@ -160,7 +160,7 @@ def poll_tracker_params():
             parsed = parse_msg(response)
             params.update(parsed)
         except Exception as e:
-            logger.exception(e)
+            logger.info(e)
             params['ERROR'] = 'YES'
             params['TYPE'] = 'PYSERIAL'
             params['INFO'] = e
@@ -171,7 +171,7 @@ def poll_tracker_params():
         tunnel.close()
     pins_close()
     if len(params) < 50:
-        logger.warn("Unusually short message of %d characters"%len(params))
+        logger.info("Unusually short message of %d characters"%len(params))
         params['ERROR'] = 'YES'
         params['TYPE'] = 'PYSERIAL'
         params['INFO'] = 'TOO_SHORT'

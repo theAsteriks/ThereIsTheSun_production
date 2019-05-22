@@ -24,7 +24,7 @@ def poll_server_params():
             response = requests.get(polling_url, timeout = 5)
             break
         except Exception as e:
-            logger.warn("%i timeouts as of now"%i)
+            logger.debug("%i timeouts as of now"%i)
             if i == 4:
                 i += 1
     if i > 4:
@@ -43,7 +43,7 @@ def poll_server_params():
         return error_dict
 
     if response.text == '0 results':
-        logger.debug("Zero results reponse")
+        logger.warn("Zero results reponse")
         response = dict()
         response['availability'] = 'NO'
         response['ERROR'] = None
@@ -81,7 +81,7 @@ def poll_server_params():
                         return response
             except Exception as e:
                 logger.warning("Unable to convert server response to JSON->%s"%str(json_array))
-        logger.warn("No coordinates for mirror_ID %d"%id)
+        logger.error("No coordinates for mirror_ID %d"%id)
         response['ERROR'] = 'YES'
         response['INFO'] = 'LACK_LOCAL_ID'
         response['TYPE'] = 'HTTPREQ'
