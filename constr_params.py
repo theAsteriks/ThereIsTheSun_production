@@ -307,20 +307,21 @@ class GlobalVarMGR(object):
         for velocity in self.wind_speed_array2:
             sum += velocity
         self.tracker_params['avg_wind_speed2'] = round(sum/len(self.wind_speed_array2),2)
-        try:
-            datafile = open(self.wind_data,'a')
-            fieldnames = ['inst_wind_speed','avg_wind_speed','avg_wind_speed2','time']
-            writer = csv.DictWriter(datafile,fieldnames = fieldnames)
-            if self.wind_data_first_write == None:
-                self.wind_data_first_write = int(time.time())
-            rowDict = {
-            'inst_wind_speed':inst_wind_speed,
-            'avg_wind_speed':self.tracker_params['avg_wind_speed'],
-            'avg_wind_speed2':self.tracker_params['avg_wind_speed2'],
-            'time':int(time.time())-self.wind_data_first_write
-            }
-            writer.writerow(rowDict)
-        except Exception as err:
-            logger.exception(err)
-        finally:
-            datafile.close()
+#           NO WRITING THE WIND VALUES TO A FILE ANYMORE
+#        try:
+#            datafile = open(self.wind_data,'a')
+#            fieldnames = ['inst_wind_speed','avg_wind_speed','avg_wind_speed2','time']
+#            writer = csv.DictWriter(datafile,fieldnames = fieldnames)
+#            if self.wind_data_first_write == None:
+#                self.wind_data_first_write = int(time.time())
+#            rowDict = {
+#            'inst_wind_speed':inst_wind_speed,
+#            'avg_wind_speed':self.tracker_params['avg_wind_speed'],
+#            'avg_wind_speed2':self.tracker_params['avg_wind_speed2'],
+#            'time':int(time.time())-self.wind_data_first_write
+#            }
+#            writer.writerow(rowDict)
+#        except Exception as err:
+#            logger.exception(err)
+#        finally:
+#            datafile.close()
