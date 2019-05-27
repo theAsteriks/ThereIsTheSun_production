@@ -291,7 +291,7 @@ class GlobalVarMGR(object):
                         self.bools['db_updated'] = False
     def reset_wifi(self):
     	if time.time() - self.timings['last_wifi_reset'] > config.WIFI_RESET_TIMER:
-            librf = ctypes.cdll.LoadLibrary("./librf/rf_state.so")
+            librf = ctypes.cdll.LoadLibrary("./librf/rf_state32.so")
             librf.wifi_state(ctypes.c_int(1))
             time.sleep(10)
             librf.wifi_state(ctypes.c_int(0))
