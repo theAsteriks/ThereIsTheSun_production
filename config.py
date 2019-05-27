@@ -104,6 +104,7 @@ NIGHT_SLEEP_TIME = 1800
 
 POLLING_INTERVAL = 20
 POLLING_URL = 'http://www.thereisthesun.be/rpiretrievecurrentapid.php'
+WIFI_RESET_TIMER = 21600 # 6 hours
 
 MAX_SERVERDOWN_TIME = 300
 MAX_DB_DOWN_TIME = 150

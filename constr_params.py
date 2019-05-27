@@ -5,6 +5,7 @@ import UART
 
 import time
 import logging
+import ctypes
 import csv
 
 id = config.RPI_ID()
@@ -38,14 +39,16 @@ class GlobalVarMGR(object):
             'last_db_update':time.time(),
             'last_tracker_poll':time.time(),
             'last_wind_poll':time.time(),
-            'last_tracker_update':time.time()
+            'last_tracker_update':time.time(),
+            'last_wifi_reset':time.time()
         }
         self.bools = {
             'db_updated':True,
             'http_polled':True,
             'tracker_polled':True,
             'wind_polled':True,
-            'tracker_updated':True
+            'tracker_updated':True,
+            'wifi_reseted':False
         }
         if self.tracer == True:
             self.tracker_params['avg_wind_speed'] = 0.0
@@ -54,15 +57,15 @@ class GlobalVarMGR(object):
             self.wind_speed_array2 = []
             self.wind_data = 'log_files/wind_measurements.csv'
             self.wind_data_first_write = None
-            try:
-                tablefile = open(self.wind_data,'w')
-                fieldnames = ['inst_wind_speed','avg_wind_speed','avg_wind_speed2','time']
-                writer = csv.DictWriter(tablefile,fieldnames = fieldnames)
-                writer.writeheader()
-            except Exception as err:
-                logger.exception(err)
-            finally:
-                tablefile.close()
+#            try:
+#                tablefile = open(self.wind_data,'w')
+#                fieldnames = ['inst_wind_speed','avg_wind_speed','avg_wind_speed2','time']
+#                writer = csv.DictWriter(tablefile,fieldnames = fieldnames)
+#                writer.writeheader()
+#            except Exception as err:
+#                logger.exception(err)
+#            finally:
+#                tablefile.close()
         else:
             self.polled_wind_speed = 0.0
 
@@ -286,6 +289,13 @@ class GlobalVarMGR(object):
                         logger.critical("tracer DB_FAILURE for more than %d secs"\
                         %(2*time_limit))
                         self.bools['db_updated'] = False
+    def reset_wifi(self):
+    	if time.time() - self.timings['last_wifi_reset'] > config.WIFI_RESET_TIMER:
+            librf = ctypes.cdll.LoadLibrary("./librf/rf_state.so")
+            librf.wifi_state(ctypes.c_int(1))
+            time.sleep(10)
+            librf.wifi_state(ctypes.c_int(0))
+            self.timings['last_wifi_reset'] = time.time()
 
     def calc_avg_wind_speed(self):
         inst_wind_speed = 0.0

@@ -155,6 +155,7 @@ def IO_MGR():
 
     if io_counter >= config.POLLING_INTERVAL:
         io_counter = 0
+        sub_boss.reset_wifi()
     else:
         io_counter += 1
 
