@@ -164,7 +164,7 @@ def IO_MGR():
     if wind_poll_counter >= max_wind_poll_counter:
         wind_poll_counter = 0
     else:
-        wind_poll_counter += 2
+        wind_poll_counter += 4
 
 def STATE_MGR():
     global current_state
