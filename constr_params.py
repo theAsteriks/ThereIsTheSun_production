@@ -284,7 +284,7 @@ class GlobalVarMGR(object):
                         %config.MAX_DB_DOWN_TIME)
                         self.bools['db_updated'] = False
             else:
-                if time.time() - self.timezone['last_db_update'] > (2*time_limit):
+                if time.time() - self.timings['last_db_update'] > (2*time_limit):
                     if self.bools['db_updated'] == True:
                         logger.critical("tracer DB_FAILURE for more than %d secs"\
                         %(2*time_limit))
