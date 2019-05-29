@@ -207,7 +207,7 @@ def STATE_MGR():
             logger.info("Changing state from %s to TRACKING"%current_state)
         current_state = "TRACKING"
 
-sub_boss.set_PCB_time()
+constr_params.set_PCB_time()
 set_local_time()
 
 if sub_boss.tracer == True:

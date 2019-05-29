@@ -296,18 +296,6 @@ class GlobalVarMGR(object):
             librf.wifi_state(ctypes.c_int(0))
             self.timings['last_wifi_reset'] = time.time()
 
-    def set_PCB_time():
-        t = time.gmtime()
-        UART.send_write_command(config.d["Seconds"],t[5])
-        time.sleep(0.5)
-        UART.send_write_command(config.d["Minutes"],t[4])
-        time.sleep(0.5)
-        UART.send_write_command(config.d["Hours"],t[3])
-        time.sleep(0.5)
-        UART.send_write_command(config.d["Date"],t[2])
-        time.sleep(0.5)
-        UART.send_write_command(config.d["Month"],t[1])
-
     def calc_avg_wind_speed(self):
         inst_wind_speed = 0.0
         try:
@@ -328,6 +316,18 @@ class GlobalVarMGR(object):
         for velocity in self.wind_speed_array2:
             sum += velocity
         self.tracker_params['avg_wind_speed2'] = round(sum/len(self.wind_speed_array2),2)
+
+def set_PCB_time():
+    t = time.gmtime()
+    UART.send_write_command(config.d["Seconds"],t[5])
+    time.sleep(0.5)
+    UART.send_write_command(config.d["Minutes"],t[4])
+    time.sleep(0.5)
+    UART.send_write_command(config.d["Hours"],t[3])
+    time.sleep(0.5)
+    UART.send_write_command(config.d["Date"],t[2])
+    time.sleep(0.5)
+    UART.send_write_command(config.d["Month"],t[1])
 #           NO WRITING THE WIND VALUES TO A FILE ANYMORE
 #        try:
 #            datafile = open(self.wind_data,'a')
