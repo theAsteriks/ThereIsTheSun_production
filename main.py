@@ -165,7 +165,7 @@ def IO_MGR():
         wind_poll_counter = 0
     else:
         if sub_boss.tracer == True:
-            wind_poll_counter += 4
+            wind_poll_counter += 5
         else:
             wind_poll_counter += 2
 
@@ -174,7 +174,7 @@ def STATE_MGR():
     global sub_boss
     global ok_status
 
-    if time.localtime()[3] not in range(7,20):
+    if time.localtime()[3] not in range(8,20):
         if current_state != "NIGHT_IDLE":
             logger.info("Changing state from %s to NIGHT_IDLE"%current_state)
         current_state = "NIGHT_IDLE"

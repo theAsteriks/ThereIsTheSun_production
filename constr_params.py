@@ -47,8 +47,7 @@ class GlobalVarMGR(object):
             'http_polled':True,
             'tracker_polled':True,
             'wind_polled':True,
-            'tracker_updated':True,
-            'wifi_reseted':False
+            'tracker_updated':True
         }
         if self.tracer == True:
             self.tracker_params['avg_wind_speed'] = 0.0
