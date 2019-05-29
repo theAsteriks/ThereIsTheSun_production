@@ -296,6 +296,18 @@ class GlobalVarMGR(object):
             librf.wifi_state(ctypes.c_int(0))
             self.timings['last_wifi_reset'] = time.time()
 
+    def set_PCB_time():
+        t = time.gmtime()
+        UART.send_write_command(config.d["Seconds"],t[5])
+        time.sleep(0.5)
+        UART.send_write_command(config.d["Minutes"],t[4])
+        time.sleep(0.5)
+        UART.send_write_command(config.d["Hours"],t[3])
+        time.sleep(0.5)
+        UART.send_write_command(config.d["Date"],t[2])
+        time.sleep(0.5)
+        UART.send_write_command(config.d["Month"],t[1])
+
     def calc_avg_wind_speed(self):
         inst_wind_speed = 0.0
         try:
