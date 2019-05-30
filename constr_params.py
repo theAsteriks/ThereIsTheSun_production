@@ -319,15 +319,15 @@ class GlobalVarMGR(object):
 
 def set_PCB_time():
     t = time.gmtime()
-    UART.send_write_command(config.d["Seconds"],t[5])
+    UART.send_write_command(config.d["Seconds"],str(t[5]))
     time.sleep(0.5)
-    UART.send_write_command(config.d["Minutes"],t[4])
+    UART.send_write_command(config.d["Minutes"],str(t[4]))
     time.sleep(0.5)
-    UART.send_write_command(config.d["Hours"],t[3])
+    UART.send_write_command(config.d["Hours"],str(t[3]))
     time.sleep(0.5)
-    UART.send_write_command(config.d["Date"],t[2])
+    UART.send_write_command(config.d["Date"],str(t[2]))
     time.sleep(0.5)
-    UART.send_write_command(config.d["Month"],t[1])
+    UART.send_write_command(config.d["Month"],str(t[1]))
 #           NO WRITING THE WIND VALUES TO A FILE ANYMORE
 #        try:
 #            datafile = open(self.wind_data,'a')
