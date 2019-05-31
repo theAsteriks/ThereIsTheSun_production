@@ -102,7 +102,7 @@ IDLEA = '0.0'
 IDLEB = '89.9'
 NIGHT_SLEEP_TIME = 1800
 
-POLLING_INTERVAL = 20
+POLLING_INTERVAL = 30
 POLLING_URL = 'http://www.thereisthesun.be/rpiretrievecurrentapid.php'
 WIFI_RESET_TIMER = 7200 # 2 hours
 
