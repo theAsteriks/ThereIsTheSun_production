@@ -1,10 +1,11 @@
 import os
+import time
 import config
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.kbkdf import \
 (CounterLocation, KBKDFHMAC, Mode)
-import cryptography.hazmat.backends
+from cryptography.hazmat.backends import default_backend
 import base64
 
 class Disenchant(object):
@@ -31,7 +32,7 @@ class Disenchant(object):
     label=label,\
     context=context,\
     fixed=None,\
-    backend=backends.default_backend())
+    backend=default_backend())
     return base64.urlsafe_b64encode(kdf.derive(self.__getSerialNum(config.SER_N_FILE_LOC)))
   
   def getDBdata(self):
