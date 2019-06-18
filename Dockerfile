@@ -1,4 +1,4 @@
-FROM resin/raspberry-pi-python
+FROM resin/raspberry-pi-python:build
 
 WORKDIR /usr/src/app
 
